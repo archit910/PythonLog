@@ -1,6 +1,5 @@
 # Node Class
 class Node:
-
 	#Constructor 
 	def __init__(self,data):
 		self.data = data
@@ -20,6 +19,7 @@ class LinkedList:
 			self.tail = Node
 	
 	def traverse(self):
+		print '\n'
 		current_node = self.head
 		while(current_node):
 			print current_node.data,
@@ -71,11 +71,47 @@ class LinkedList:
 				current_node = current_node.next
 		return prev_node
 
-			
 	def get_count_integer(self, data):
 		return self.get_count_check
-		 
-# The main function
+
+	def reverse_list(self):
+		pn = cn = self.head
+		rn = None
+		cn = cn.next
+		while(cn):
+			pn.next = rn
+			rn = pn 
+			pn = cn
+			cn = cn.next
+		pn.next = rn
+		self.head = pn
+	
+	def swapR(self,head_node):
+		if not (head_node.next and head_node.next.next):
+			return 
+		head_next = head_node.next
+		head_node.data,head_next.data = head_next.data,head_node.data
+		self.swapR(head_node.next.next)
+
+	def swap_pairwise(self):
+		self.swapR(self.head)
+
+#a function which intersects two sorted LinkedLists
+def sortedIntersect(self,head_a, head_b):
+	if not (head_a and head_b):
+		return None
+	if head_a.data < head_b.data:
+		return sortedIntersect(head_a.next, head_b)
+	elif head_b.data > head_a.data:
+		return sortedIntersect(head_a, head_b.next)
+
+	# create a node
+	n = Node(head_a.data)
+	n.next = sortedIntersect(head_a.next, head_b.next)
+	return n
+
+
+# The main function                         
 if __name__ == "__main__":
 	l_list = LinkedList()
 	n1 = Node(1)
@@ -87,7 +123,7 @@ if __name__ == "__main__":
 	l_list.insert_after(2,4)
 	l_list.insert_after(3,5)
 	l_list.traverse()
-	mid_node = l_list.get_middle()
-	print '\n' , l_list.count_node()
-	print '\n' , mid_node.data
- 
+	l_list.reverse_list()
+	l_list.traverse() 
+	l_list.swap_pairwise()
+	l_list.traverse()
