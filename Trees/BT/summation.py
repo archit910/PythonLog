@@ -115,6 +115,26 @@ class BinaryTree():
                     # print each ,
                 # print '\n'
 
+    def subtree_with_given_sum_utilty(self, root,flag, sum):
+        if not root:
+            return 0
+        ls = self.subtree_with_given_sum_utilty(root.left, flag=flag, sum=sum)
+        rs = self.subtree_with_given_sum_utilty(root.right, flag = flag, sum=sum)
+
+        # print ls , rs , root.key , '\n'
+        if ls + rs + root.key == sum:
+            flag[0] = True
+        return ls + rs + root.key
+
+    def subtree_with_given_sum(self, root, sum):
+        flag = [False]
+        self.subtree_with_given_sum_utilty(root, flag, sum)
+        if flag[0]:
+            return "YES"
+        else:
+            return "NO"
+
+
 if __name__ == '__main__':
 
     n1 = TreeNode(26)  # root
@@ -128,9 +148,9 @@ if __name__ == '__main__':
     n1.left = n2
     n1.right = n3
     n2.left = n4
+    n2.right = n5
     n3.left = n6
     n3.right = n7
-    n2.right = n5
     # n1 = TreeNode(-15)
     # n2 = TreeNode(5)
     # n3 = TreeNode(6)
@@ -161,7 +181,8 @@ if __name__ == '__main__':
     tree = BinaryTree(root=n1)  # n1 as a root
     # print tree.max_sum_path(tree.root)
     path = []
-    tree.print_k_path_sum(root=tree.root,path=path,k=16)
+    # tree.print_k_path_sum(root=tree.root,path=path,k=16)
     # l = [0]
     # tree.check(l, root=tree.root , count=1)
     # print 'Final ' , l
+    print tree.subtree_with_given_sum(root=tree.root,sum=220)
