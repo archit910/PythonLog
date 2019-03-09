@@ -1,5 +1,4 @@
 import copy
-
 class TreeNode:
     '''
     This is a tree Node class
@@ -81,53 +80,88 @@ class BinaryTree():
         self.max_sum_path_utility(root, max_sum)
         return max_sum[0]
 
+    def largest_sum_subtree_utility(self, root, max_sum):
+        if not root:
+            return 0
+        ls = self.largest_sum_subtree_utility(root.left,max_sum)
+        rs = self.largest_sum_subtree_utility(root.right,max_sum)
+        max_sum[0] = max(max(max_sum[0],ls),rs)
+        max_sum[0] = max(max_sum[0],ls+rs+root.key)
+        return ls + rs + root.key
 
+    def largest_sum_subtree(self, root):
+        max_sum = [-1]
+        self.largest_sum_subtree_utility(root, max_sum)
+        return max_sum[0]
+
+    # prints downward paths only
+    def print_k_path_sum(self, root, path, k):
+
+        if not root:
+            return
+        path.append(root.key)
+        self.print_k_path_sum(root.left, path=copy.deepcopy(path), k=k)
+        self.print_k_path_sum(root.right, path=copy.deepcopy(path), k=k)
+
+        # now we have path till this node.
+        sum = 0
+        for i in range(len(path)-1 , -1,-1):
+            sum += path[i]
+            # print sum,
+            if sum == k:
+                # print 'YIKES !!!\n' , path , '\n'
+                print path[i:len(path)] , '\n'
+                # for each in pr_path:
+                    # print each ,
+                # print '\n'
 
 if __name__ == '__main__':
 
-    # n1 = TreeNode(26)  # root
-    # n2 = TreeNode(10)
-    # n3 = TreeNode(3)
-    # n4 = TreeNode(4)
-    # n5 = TreeNode(6)
-    # n6 = TreeNode(1)
-    # n7 = TreeNode(2)
-    #
-    # n1.left = n2
-    # n1.right = n3
-    # n2.left = n4
-    # n3.left = n6
-    # n3.right = n7
-    # n2.right = n5
-    n1 = TreeNode(-15)
-    n2 = TreeNode(5)
-    n3 = TreeNode(6)
-    n4 = TreeNode(-8)
-    n5 = TreeNode(1)
-    n6 = TreeNode(3)
-    n7 = TreeNode(9)
-    n8 = TreeNode(2)
-    n9 = TreeNode(6)
-    n10 = TreeNode(0)
-    n11 = TreeNode(4)
-    n12 = TreeNode(-1)
-    n13 = TreeNode(10)
+    n1 = TreeNode(26)  # root
+    n2 = TreeNode(10)
+    n3 = TreeNode(3)
+    n4 = TreeNode(4)
+    n5 = TreeNode(6)
+    n6 = TreeNode(1)
+    n7 = TreeNode(13)
+
     n1.left = n2
     n1.right = n3
     n2.left = n4
-    n2.right = n5
     n3.left = n6
     n3.right = n7
-    n4.left = n8
-    n4.right = n9
-    n7.right = n10
-    n10.left = n11
-    n10.right = n12
-    n12.left = n13
+    n2.right = n5
+    # n1 = TreeNode(-15)
+    # n2 = TreeNode(5)
+    # n3 = TreeNode(6)
+    # n4 = TreeNode(-8)
+    # n5 = TreeNode(1)
+    # n6 = TreeNode(3)
+    # n7 = TreeNode(9)
+    # n8 = TreeNode(2)
+    # n9 = TreeNode(6)
+    # n10 = TreeNode(0)
+    # n11 = TreeNode(4)
+    # n12 = TreeNode(-1)
+    # n13 = TreeNode(10)
+    # n1.left = n2
+    # n1.right = n3
+    # n2.left = n4
+    # n2.right = n5
+    # n3.left = n6
+    # n3.right = n7
+    # n4.left = n8
+    # n4.right = n9
+    # n7.right = n10
+    # n10.left = n11
+    # n10.right = n12
+    # n12.left = n13
 
 
     tree = BinaryTree(root=n1)  # n1 as a root
-    print tree.max_sum_path(tree.root)
+    # print tree.max_sum_path(tree.root)
+    path = []
+    tree.print_k_path_sum(root=tree.root,path=path,k=16)
     # l = [0]
     # tree.check(l, root=tree.root , count=1)
     # print 'Final ' , l
