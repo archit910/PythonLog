@@ -180,7 +180,7 @@ if __name__ == '__main__':
 
     tree = BinaryTree(root=n1)  # n1 as a root
     # print tree.max_sum_path(tree.root)
-    path = []
+    # path = []
     # tree.print_k_path_sum(root=tree.root,path=path,k=16)
     # l = [0]
     # tree.check(l, root=tree.root , count=1)

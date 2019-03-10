@@ -111,19 +111,34 @@ def sortedIntersect(self,head_a, head_b):
 	return n
 
 
+def addSameSizeList(head1, head2, carry):
+	if not head1:
+		return None
+	n = Node(None)
+	n.next = addSameSizeList(head1.next, head2.next , carry)
+	val = head1.data + head2.data + carry.get('carry', 0)
+	c = val / 10
+	carry['carry'] = c
+	val = val % 10
+	n.data = val
+	return n
+
 # The main function                         
 if __name__ == "__main__":
 	l_list = LinkedList()
-	n1 = Node(1)
+	l_list1 = LinkedList()
+	n1 = Node(2)
 	n2 = Node(2)
 	n3 = Node(3)
 	l_list.push(n1)
 	l_list.push(n2)
 	l_list.push(n3)
-	l_list.insert_after(2,4)
-	l_list.insert_after(3,5)
-	l_list.traverse()
-	l_list.reverse_list()
-	l_list.traverse() 
-	l_list.swap_pairwise()
-	l_list.traverse()
+	l_list1.push(Node(9))
+	l_list1.push(Node(8))
+	l_list1.push(Node(9))
+	new_list = LinkedList()
+	carry = {'carry': 0}
+	new_list.head = addSameSizeList(l_list.head, l_list1.head, carry)
+
+	new_list.traverse()
+	print '\ncarry is {}'.format(carry)
